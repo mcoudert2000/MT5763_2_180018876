@@ -23,13 +23,21 @@ DATA PROJECT2.Luxuriant;
 SET PROJECT2.Baldy;
 KEEP Luxuriant AgeLuxuriant;
 RENAME Luxuriant = Length AgeLuxuriant = Age;
-Group = "Luxuriant";
+RUN;
+
+DATA PROJECT2.Luxuriant;
+SET PROJECT2.Luxuriant;
+Group = 'Luxuriant';
 RUN;
 
 DATA PROJECT2.Placebo;
 SET PROJECT2.Baldy;
 KEEP Placebo AgePlacebo;
 RENAME Placebo = Length AgePlacebo = Age;
+RUN;
+
+DATA PROJECT2.Placebo;
+SET PROJECT2.Placebo;
 Group = "Placebo";
 RUN;
 
@@ -37,13 +45,21 @@ DATA PROJECT2.BaldBeGone;
 SET PROJECT2.Baldy;
 KEEP BaldBeGone AgeBaldBeGone;
 RENAME BaldBeGone = Length AgeBaldBeGone = Age;
-Group = "BaldBeGone";
+RUN;
+
+DATA PROJECT2.SkinHeadNoMore; 
+SET PROJECT2.SkinHeadNoMore;
+Group = "SkinHeadNoMore";
 RUN;
 
 DATA PROJECT2.SkinHeadNoMore;
 SET PROJECT2.Baldy;
 KEEP Skinheadnomore AgeSkinheadnomore;
 RENAME Skinheadnomore = Length AgeSkinheadnomore = Age;
+RUN;
+
+DATA PROJECT2.SkinHeadNoMore;
+SET PROJECT2.SkinHeadNoMore;
 Group = "SkinHeadNoMore";
 RUN;
 ```
