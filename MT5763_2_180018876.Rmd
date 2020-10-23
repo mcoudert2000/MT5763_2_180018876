@@ -63,3 +63,12 @@ SET PROJECT2.SkinHeadNoMore;
 Group = "SkinHeadNoMore";
 RUN;
 ```
+
+Stacking all the datasets on top of eachother
+```
+DATA PROJECT2.BigBaldy;
+SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant PROJECT2.Placebo PROJECT2.BaldBeGone;
+RUN;
+```
+
+
