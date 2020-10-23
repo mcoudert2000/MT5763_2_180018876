@@ -1,0 +1,16 @@
+---
+title: "Project 2"
+output: html_document
+author: "Matthew Coudert"
+---
+
+
+## Importing Data into SAS
+```
+PROC IMPORT OUT= PROJECT2.Baldy 
+            DATAFILE= "C:\Users\mjc34\Desktop\Baldy.csv" 
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; 
+RUN;
+```
