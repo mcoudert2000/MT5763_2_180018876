@@ -70,5 +70,11 @@ DATA PROJECT2.BigBaldy;
 SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant PROJECT2.Placebo PROJECT2.BaldBeGone;
 RUN;
 ```
-
+Converting inches to mm for all lengths
+```
+DATA PROJECT2.BigBaldy;
+SET PROJECT2.BigBaldy;
+Length = Length * 25.4;
+RUN;
+```
 
