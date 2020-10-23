@@ -14,3 +14,36 @@ PROC IMPORT OUT= PROJECT2.Baldy
      DATAROW=2; 
 RUN;
 ```
+## Data Wrangling
+We want the dataset to be the following tidy format, Row 1: Test Group, Row 2: Hair Length, Row 3: Age
+
+First we will create a dataset for each of the 4 groups and rename for consistency:
+```
+DATA PROJECT2.Luxuriant;
+SET PROJECT2.Baldy;
+KEEP Luxuriant AgeLuxuriant;
+RENAME Luxuriant = Length AgeLuxuriant = Age;
+Group = "Luxuriant";
+RUN;
+
+DATA PROJECT2.Placebo;
+SET PROJECT2.Baldy;
+KEEP Placebo AgePlacebo;
+RENAME Placebo = Length AgePlacebo = Age;
+Group = "Placebo";
+RUN;
+
+DATA PROJECT2.BaldBeGone;
+SET PROJECT2.Baldy;
+KEEP BaldBeGone AgeBaldBeGone;
+RENAME BaldBeGone = Length AgeBaldBeGone = Age;
+Group = "Luxuriant";
+RUN;
+
+DATA PROJECT2.SkinHeadNoMore;
+SET PROJECT2.Baldy;
+KEEP Skinheadnomore AgeSkinheadnomore;
+RENAME Skinheadnomore = Length AgeSkinheadnomore = Age;
+Group = "SkinHeadNoMore";
+RUN;
+```
