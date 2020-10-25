@@ -218,9 +218,16 @@ PROC MEANS data =  PROJECT2.LuxuriantBaldBeGoneTest;
   OUTPUT OUT=mymeans mean=;
 RUN;
 ```
-This results in a mean length of 12.9994956mm for the Luxuriant treatment and a length of 36.1521295mm for the Placebo
+This results in a mean length of 12.9994956mm for the Luxuriant treatment and a length of 36.1521295mm for BaldBeGone.
 
-
+Now comparing this to the observed difference:
+```
+data ResultHolderabbrev;
+set ResultHolder;
+where RandomisedMean >= (36.1521295-12.9994956);
+run;
+```
+Again this generates 0 values that have a greater difference in means between BaldBeGone and Luxuriant implying that BaldBeGone is a better treatment to use than Luxuriant. 
 
 
 
