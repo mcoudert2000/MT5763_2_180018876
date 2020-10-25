@@ -269,5 +269,14 @@ Length = Length * 25.4;
 RUN;
 ```
 Now we will generate a linear model of Age vs Hair Length (mm) post treatment. 
+```
+PROC GLM DATA = PROJECT2.AgeTest;
+CLASS aspir;
+MODEL length = age;
+RUN;
+```
+This results in the fitted linear model $\text{length(mm)}= 22.93469775 - 0.00610651*\text{age}$ 
 
-
+```{r ageFitPlot}
+knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/AgeFitPlot.png")
+```
