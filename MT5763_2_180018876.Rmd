@@ -78,3 +78,11 @@ Length = Length * 25.4;
 RUN;
 ```
 
+## Plotting
+Now that all of our data is in tidy format, we will visualize it to see if theres any obvious patterns we can spot within the data before we begin our analysis.
+
+```{r big_plot}
+knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Full Dataset Plot.png")
+```
+
+
