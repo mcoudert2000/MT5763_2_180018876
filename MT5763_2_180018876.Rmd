@@ -229,6 +229,40 @@ run;
 ```
 Again this generates 0 values that have a greater difference in means between BaldBeGone and Luxuriant implying that BaldBeGone is a better treatment to use than Luxuriant. 
 
+Finally comparing Luxuriant to SkinHeadNoMore:
+
+Generating the random samples
+```
+DATA PROJECT2.LuxuriantSkinHeadNoMoreTest;
+SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant;
+Length = Length * 25.4;
+RUN;
+
+%TwoSampRandTest(NumberOfLoops=100, DataSet=PROJECT2.LuxuriantSkinHeadNoMoreTest, GroupVariable=Group, GroupOneLabel="SkinHeadNoMore", GroupTwoLabel="Luxuriant", ResponseVariable=Length);
+```
+Finding the sample means:
+```
+DATA PROJECT2.LuxuriantSkinHeadNoMoreTest;
+SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant;
+Length = Length * 25.4;
+RUN;
+
+%TwoSampRandTest(NumberOfLoops=100, DataSet=PROJECT2.LuxuriantSkinHeadNoMoreTest, GroupVariable=Group, GroupOneLabel="SkinHeadNoMore", GroupTwoLabel="Luxuriant", ResponseVariable=Length);
+```
+This results in a mean length of 18.7400940mm for SkinHeadNoMore and a mean length of 12.9994956mm for the Luxuriant treatment. Comparing the sample means to the randomly generated means.
+```
+data ResultHolderabbrev;
+set ResultHolder;
+where RandomisedMean >= (18.7400940-12.9994956);/* observeddiff as a numeric value */
+run;
+```
+Yet again 0 of the values randomly generated under H0 are greater than the difference between the sample means again implying SkinHeadNoMore is a better treatment than Luxuriant for hair growth. 
+
+
+
+
+
+
 
 
 
