@@ -258,11 +258,16 @@ run;
 ```
 Yet again 0 of the values randomly generated under H0 are greater than the difference between the sample means again implying SkinHeadNoMore is a better treatment than Luxuriant for hair growth. 
 
+### Age
+Now we must answer the question if Age has an effect on hair growth post treatment.
 
-
-
-
-
-
+In order to accomplish this first I will create a dataset with all of the treatments excluding the placebo. 
+```
+DATA PROJECT2.AgeTest;
+SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant PROJECT2.BaldBeGone;
+Length = Length * 25.4;
+RUN;
+```
+Now we will generate a linear model of Age vs Hair Length (mm) post treatment. 
 
 
