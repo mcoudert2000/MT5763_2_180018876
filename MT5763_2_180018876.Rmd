@@ -106,6 +106,88 @@ run;
 knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Full Dataset Plot.png")
 ```
 
+## Analysis
+The first question we will answer is if there is any difference between the mean of the Placebo group's length and the mean length of patients who received Luxuriant.
+
+In order to accomplish this first I will use a Macro from the notes (slightly modified) to perform a random sample difference of means t-test.
+```
+%macro TwoSampRandTest(NumberOfLoops, DataSet, GroupVariable, GroupOneLabel, GroupTwoLabel, ResponseVariable);
+	%do i=1 %to &NumberOfLoops;
+
+	DATA RandomGroup;
+	SET &DataSet (keep=&GroupVariable);
+	RandomIndex=rand('uniform');   
+	run;
+
+	PROC SORT DATA=RandomGroup out=RandomGroup;
+	by RandomIndex;
+	run;
+
+	data WorkingData;
+	merge RandomGroup(keep=&GroupVariable) &DataSet(drop=&GroupVariable);
+	run;
+
+	data RandomGroup1;
+	set WorkingData;
+	where &GroupVariable=&GroupOneLabel;
+	data RandomGroup2;
+	set WorkingData;
+	where &GroupVariable=&GroupTwoLabel;
+	run;
+
+	proc means data=RandomGroup1 noprint;
+	var &ResponseVariable;
+	output out=GroupOneMean mean=mean;
+	run;
+
+	proc means data=RandomGroup2 noprint;
+	var &ResponseVariable;
+	output out=GroupTwoMean mean=mean;
+	run;
+
+	data _NULL_;
+	set GroupOneMean;
+	call symput('GroupOneMean', mean);
+	run;
+
+	data _NULL_;
+	set GroupTwoMean;
+	call symput('GroupTwoMean', mean);
+	run;
+
+	data Temp;
+	RandomisedMean=&GroupTwoMean-&GroupOneMean;
+	run;
+
+	data ResultHolder;
+		%if &i=1 %then %do;
+			set Temp;
+		%end;
+		%else %do;
+			set ResultHolder Temp;
+		%end;
+	run;
+	%end;
+%mend;
+```
+
+Here we will create a new table holding only the data from Luxuriant and the Placebo
+```
+DATA PROJECT2.LuxuriantTest;
+SET PROJECT2.Luxuriant PROJECT2.Placebo;
+Length = Length * 25.4;
+RUN;
+```
+
+Now we will run the sampling macro created above to generate 100 random samples assuming that the two means are equal
+```
+%TwoSampRandTest(NumberOfLoops=100, DataSet=PROJECT2.LuxuriantTest, GroupVariable=Group, GroupOneLabel="Placebo", GroupTwoLabel="Luxuriant", ResponseVariable=Length);
+```
+
+
+
+
+
 
 
 
