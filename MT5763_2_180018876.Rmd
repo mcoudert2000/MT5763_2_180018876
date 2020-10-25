@@ -191,6 +191,8 @@ PROC MEANS data =  PROJECT2.LuxuriantTest;
   OUTPUT OUT=mymeans mean=;
 RUN;
 ```
+This results in a mean length of 12.9994956mm for the Luxuriant treatment and a length of 2.4850741mm for the Placebo
+
 We will now compare this to the randomly sampled data to see how out of the norm the sampled data is assuming the two have equal means.
 
 ```
@@ -201,7 +203,22 @@ run;
 ```
 0 of the 100 generated samples have a difference of mean greater than the sample implying that the Luxuriant treatment is better than no treatment. 
 
+Now we will repeat this analysis for Luxuriant vs the Other drugs on the market. First we will compare it to BaldBeGone:
+```
+DATA PROJECT2.LuxuriantBaldBeGoneTest;
+SET PROJECT2.Luxuriant PROJECT2.BaldBeGone;
+Length = Length * 25.4;
+RUN;
 
+%TwoSampRandTest(NumberOfLoops=100, DataSet=PROJECT2.BaldBeGoneTest, GroupVariable=Group, GroupOneLabel="BaldBeGone", GroupTwoLabel="Luxuriant", ResponseVariable=Length);
+
+PROC MEANS data =  PROJECT2.LuxuriantBaldBeGoneTest;
+  VAR Length; 
+  BY Group;
+  OUTPUT OUT=mymeans mean=;
+RUN;
+```
+This results in a mean length of 12.9994956mm for the Luxuriant treatment and a length of 36.1521295mm for the Placebo
 
 
 
