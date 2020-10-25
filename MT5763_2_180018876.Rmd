@@ -47,9 +47,9 @@ KEEP BaldBeGone AgeBaldBeGone;
 RENAME BaldBeGone = Length AgeBaldBeGone = Age;
 RUN;
 
-DATA PROJECT2.SkinHeadNoMore; 
-SET PROJECT2.SkinHeadNoMore;
-Group = "SkinHeadNoMore";
+DATA PROJECT2.BaldBeGone; 
+SET PROJECT2.BaldBeGone;
+Group = "BaldBeGone";
 RUN;
 
 DATA PROJECT2.SkinHeadNoMore;
