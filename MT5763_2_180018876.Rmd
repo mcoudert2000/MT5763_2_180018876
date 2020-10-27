@@ -251,13 +251,13 @@ RUN;
 ```
 This results in a mean length of 18.7400940mm for SkinHeadNoMore and a mean length of 12.9994956mm for the Luxuriant treatment. Comparing the sample means to the randomly generated means.
 ```
-data ResultHolderabbrev;
-set ResultHolder;
-where RandomisedMean >= (18.7400940-12.9994956);/* observeddiff as a numeric value */
-run;
+DATA ResultHolderabbrev;
+SET ResultHolder;
+WHERE RandomisedMean >= (18.7400940-12.9994956); /* 18.7400940-12.9994956 is the difference of means between the 2 datasets
+RUN;
 ```
 Yet again 0 of the values randomly generated under H0 are greater than the difference between the sample means again implying SkinHeadNoMore is a better treatment than Luxuriant for hair growth. 
-
+ 
 ### Age
 Now we must answer the question if Age has an effect on hair growth post treatment.
 
