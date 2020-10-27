@@ -3,7 +3,16 @@ title: "Project 2"
 output: html_document
 author: "Matthew Coudert"
 ---
+github: https://github.com/mcoudert2000/MT5763_2_180018876
 
+## Introduction
+A trial was undertaken for a new hairgrowth drug LUXURIANT® was undertaken to measure its effectiveness both versus existing treatments BaldBeGone and Skinheadnomore and against a placebo treatment. The authors of the study want to know from the data they collected:
+
+* Is LUXURIANT® more effective than a placebo treatment?
+* Is LUXURIANT® more effective than BaldBeGone or Skinheadnomore?
+* Does age have an effect on the effectiveness of hairgrowth drugs?
+
+In order to answer these questions, first we must take the data provided and tidy it into a format more amenable to our analysis tools. 
 
 ## Importing Data into SAS
 ```
