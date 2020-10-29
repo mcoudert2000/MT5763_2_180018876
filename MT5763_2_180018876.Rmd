@@ -79,14 +79,14 @@ RUN;
 Stacking all the datasets on top of eachother
 ```
 DATA PROJECT2.BigBaldy;
-SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant PROJECT2.Placebo PROJECT2.BaldBeGone; \* Listing the datasets 
-RUN;
+SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant PROJECT2.Placebo PROJECT2.BaldBeGone; \* Listing the datasets in the order they will appear in the dataset
+RUN; 
 ```
 Converting inches to mm for all lengths.
 ```
-DATA PROJECT2.BigBaldy; 
+DATA PROJECT2.BigBaldy;
 SET PROJECT2.BigBaldy;
-Length = Length * 25.4; \* Inches to (mm)
+Length = Length * 25.4; \* Inches to (mm) conversion formula
 RUN;
 ```
 
@@ -124,22 +124,22 @@ The first question we will answer is if there is any difference between the mean
 In order to accomplish this first I will use a Macro from the notes (slightly modified) to perform a random sample difference of means t-test.
 ```
 %macro TwoSampRandTest(NumberOfLoops, DataSet, GroupVariable, GroupOneLabel, GroupTwoLabel, ResponseVariable);
-	%do i=1 %to &NumberOfLoops;
+	%do i=1 %to &NumberOfLoops; \* Repeating the randomization process "Number Of Loops" times
 
-	DATA RandomGroup;
+	DATA RandomGroup; \* Creating a random dataset 
 	SET &DataSet (keep=&GroupVariable);
-	RandomIndex=rand('uniform');   
+	RandomIndex=rand('uniform'); \* Generate a random number between 0 and 1
 	run;
 
-	PROC SORT DATA=RandomGroup out=RandomGroup;
+	PROC SORT DATA=RandomGroup out=RandomGroup; \* Sorting the data in order of the generated random index
 	by RandomIndex;
 	run;
 
 	data WorkingData;
-	merge RandomGroup(keep=&GroupVariable) &DataSet(drop=&GroupVariable);
+	merge RandomGroup(keep=&GroupVariable) &DataSet(drop=&GroupVariable); \* Create a dataset working data
 	run;
 
-	data RandomGroup1;
+	data RandomGroup1; \* Using the randomly generated index numbers to split the datasets into two 
 	set WorkingData;
 	where &GroupVariable=&GroupOneLabel;
 	data RandomGroup2;
@@ -147,17 +147,17 @@ In order to accomplish this first I will use a Macro from the notes (slightly mo
 	where &GroupVariable=&GroupTwoLabel;
 	run;
 
-	proc means data=RandomGroup1 noprint;
+	proc means data=RandomGroup1 noprint; \* Finding the mean of the first group
 	var &ResponseVariable;
 	output out=GroupOneMean mean=mean;
 	run;
 
-	proc means data=RandomGroup2 noprint;
+	proc means data=RandomGroup2 noprint; \* Finding the mean of the second group
 	var &ResponseVariable;
 	output out=GroupTwoMean mean=mean;
 	run;
 
-	data _NULL_;
+	data _NULL_; 
 	set GroupOneMean;
 	call symput('GroupOneMean', mean);
 	run;
@@ -167,11 +167,11 @@ In order to accomplish this first I will use a Macro from the notes (slightly mo
 	call symput('GroupTwoMean', mean);
 	run;
 
-	data Temp;
+	data Temp; \* Difference of the two means
 	RandomisedMean=&GroupTwoMean-&GroupOneMean;
 	run;
 
-	data ResultHolder;
+	data ResultHolder; \* Creating dataset to hold all the difference of means
 		%if &i=1 %then %do;
 			set Temp;
 		%end;
@@ -185,7 +185,7 @@ In order to accomplish this first I will use a Macro from the notes (slightly mo
 
 Here we will create a new table holding only the data from Luxuriant and the Placebo
 ```
-DATA PROJECT2.LuxuriantTest;
+DATA PROJECT2.LuxuriantTest; 
 SET PROJECT2.Luxuriant PROJECT2.Placebo;
 Length = Length * 25.4;
 RUN;
