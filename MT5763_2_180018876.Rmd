@@ -17,12 +17,11 @@ A trial was undertaken for a new hairgrowth drug LUXURIANT® was undertaken to m
 In order to answer these questions, first we must take the data provided and tidy it into a format more amenable to our analysis tools. 
 
 ## Importing Data into SAS
-Once the data is downloaded to our computer we need to upload it into SAS. Before doing this it's needed to create a PROJECT2 file to store our data in and make sure you use your file path for 
-
+Once the data is downloaded to our computer we need to upload it into SAS.
 ```
 PROC IMPORT OUT= PROJECT2.Baldy 
             DATAFILE= "C:\Users\mjc34\Desktop\Baldy.csv" \* Your file path here!!! \*
-            DBMS=CSV REPLACE; \* Reads in a .csv file and tells SAS to replace 
+            DBMS=CSV REPLACE; \* Reads in a .csv file and tells SAS to replace the file if one already exists
      GETNAMES=YES;
      DATAROW=2; 
 RUN;
@@ -32,30 +31,30 @@ We want the dataset to be the following tidy format, Row 1: Test Group, Row 2: H
 
 First we will create a dataset for each of the 4 groups and rename for consistency:
 ```
-DATA PROJECT2.Luxuriant;
-SET PROJECT2.Baldy;
-KEEP Luxuriant AgeLuxuriant;
-RENAME Luxuriant = Length AgeLuxuriant = Age;
+DATA PROJECT2.Luxuriant; \ *Setting where to import the data too
+SET PROJECT2.Baldy; \* Setting where to grab the data from
+KEEP Luxuriant AgeLuxuriant; \* Filtering out all the columns that aren't relevant 
+RENAME Luxuriant = Length AgeLuxuriant = Age; \* Naming the columns so they accurantly display what they represent
 RUN;
 
 DATA PROJECT2.Luxuriant;
-SET PROJECT2.Luxuriant;
-Group = 'Luxuriant';
+SET PROJECT2.Luxuriant; \* Changing the dataset
+Group = 'Luxuriant'; \* Creating a new variable called 
 RUN;
 
-DATA PROJECT2.Placebo;
-SET PROJECT2.Baldy;
-KEEP Placebo AgePlacebo;
-RENAME Placebo = Length AgePlacebo = Age;
-RUN;
+DATA PROJECT2.Placebo; \* Creating the placebo data group
+SET PROJECT2.Baldy; 
+KEEP Placebo AgePlacebo; 
+RENAME Placebo = Length AgePlacebo = Age; 
+RUN; 
 
-DATA PROJECT2.Placebo;
+DATA PROJECT2.Placebo; 
 SET PROJECT2.Placebo;
 Group = "Placebo";
 RUN;
 
-DATA PROJECT2.BaldBeGone;
-SET PROJECT2.Baldy;
+DATA PROJECT2.BaldBeGone; \* Creating BaldBeGone data group
+SET PROJECT2.Baldy; 
 KEEP BaldBeGone AgeBaldBeGone;
 RENAME BaldBeGone = Length AgeBaldBeGone = Age;
 RUN;
@@ -65,14 +64,14 @@ SET PROJECT2.BaldBeGone;
 Group = "BaldBeGone";
 RUN;
 
-DATA PROJECT2.SkinHeadNoMore;
+DATA PROJECT2.SkinHeadNoMore; \* Creating SkinHeadNoMore data group
 SET PROJECT2.Baldy;
 KEEP Skinheadnomore AgeSkinheadnomore;
 RENAME Skinheadnomore = Length AgeSkinheadnomore = Age;
 RUN;
 
-DATA PROJECT2.SkinHeadNoMore;
-SET PROJECT2.SkinHeadNoMore;
+DATA PROJECT2.SkinHeadNoMore;  
+SET PROJECT2.SkinHeadNoMore; 
 Group = "SkinHeadNoMore";
 RUN;
 ```
@@ -80,14 +79,14 @@ RUN;
 Stacking all the datasets on top of eachother
 ```
 DATA PROJECT2.BigBaldy;
-SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant PROJECT2.Placebo PROJECT2.BaldBeGone;
+SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant PROJECT2.Placebo PROJECT2.BaldBeGone; \* Listing the datasets 
 RUN;
 ```
-Converting inches to mm for all lengths
+Converting inches to mm for all lengths.
 ```
-DATA PROJECT2.BigBaldy;
+DATA PROJECT2.BigBaldy; 
 SET PROJECT2.BigBaldy;
-Length = Length * 25.4;
+Length = Length * 25.4; \* Inches to (mm)
 RUN;
 ```
 
@@ -110,7 +109,7 @@ endgraph;
 end;
 run;
 
-proc sgrender data=PROJECT2.BIGBALDY template=sgdesign;
+proc sgrender data=PROJECT2.BIGBALDY template=sgdesign; 
 dynamic _AGE="AGE" _LENGTH="LENGTH" _GROUP="GROUP";
 run;
 ```
@@ -253,7 +252,9 @@ RUN;
 
 %TwoSampRandTest(NumberOfLoops=100, DataSet=PROJECT2.LuxuriantSkinHeadNoMoreTest, GroupVariable=Group, GroupOneLabel="SkinHeadNoMore", GroupTwoLabel="Luxuriant", ResponseVariable=Length);
 ```
+
 Finding the sample means:
+
 ```
 DATA PROJECT2.LuxuriantSkinHeadNoMoreTest;
 SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant;
@@ -293,6 +294,8 @@ This results in the fitted linear model:
 |-----------	|-------------	|----------------	|---------	|------------	|
 | Intercept 	| 22.93469775 	| 7.09477674     	| 3.23    	| 0.0014     	|
 | Age       	| -0.00610651 	| 0.14109925     	| -0.04   	| 0.9655     	|
+
+It is clear that age does not have a statistically significant impact on the effect of using hair growth treatment.
 
 
 ```{r ageFitPlot}
