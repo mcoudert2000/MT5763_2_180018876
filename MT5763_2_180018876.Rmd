@@ -1,7 +1,9 @@
 ---
 title: "Project 2"
-output: html_document
 author: "Matthew Coudert"
+output:
+  pdf_document: default
+  html_document: default
 ---
 github: https://github.com/mcoudert2000/MT5763_2_180018876
 
@@ -15,10 +17,12 @@ A trial was undertaken for a new hairgrowth drug LUXURIANT® was undertaken to m
 In order to answer these questions, first we must take the data provided and tidy it into a format more amenable to our analysis tools. 
 
 ## Importing Data into SAS
+Once the data is downloaded to our computer we need to upload it into SAS. Before doing this it's needed to create a PROJECT2 file to store our data in and make sure you use your file path for 
+
 ```
 PROC IMPORT OUT= PROJECT2.Baldy 
-            DATAFILE= "C:\Users\mjc34\Desktop\Baldy.csv" 
-            DBMS=CSV REPLACE;
+            DATAFILE= "C:\Users\mjc34\Desktop\Baldy.csv" \* Your file path here!!! \*
+            DBMS=CSV REPLACE; \* Reads in a .csv file and tells SAS to replace 
      GETNAMES=YES;
      DATAROW=2; 
 RUN;
@@ -280,11 +284,16 @@ RUN;
 Now we will generate a linear model of Age vs Hair Length (mm) post treatment. 
 ```
 PROC GLM DATA = PROJECT2.AgeTest;
-CLASS aspir;
 MODEL length = age;
 RUN;
 ```
-This results in the fitted linear model $\text{length(mm)}= 22.93469775 - 0.00610651*\text{age}$ 
+This results in the fitted linear model:
+ 
+| Parameter 	| Estimate    	| Standard Error 	| t value 	| Pr > \|t\| 	|
+|-----------	|-------------	|----------------	|---------	|------------	|
+| Intercept 	| 22.93469775 	| 7.09477674     	| 3.23    	| 0.0014     	|
+| Age       	| -0.00610651 	| 0.14109925     	| -0.04   	| 0.9655     	|
+
 
 ```{r ageFitPlot}
 knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/AgeFitPlot.png")
