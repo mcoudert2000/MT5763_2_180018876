@@ -8,19 +8,20 @@ output:
 github: https://github.com/mcoudert2000/MT5763_2_180018876
 
 ## Introduction
-A trial was undertaken for a new hairgrowth drug LUXURIANT® was undertaken to measure its effectiveness both versus existing treatments BaldBeGone and Skinheadnomore and against a placebo treatment. The authors of the study want to know from the data they collected:
+A trial for a new hairgrowth drug LUXURIANT® was undertaken to measure its effectiveness both versus existing treatments BaldBeGone and Skinheadnomore and against a placebo treatment. The authors of the study want to know from the data they collected:
 
 * Is LUXURIANT® more effective than a placebo treatment?
 * Is LUXURIANT® more effective than BaldBeGone or Skinheadnomore?
 * Does age have an effect on the effectiveness of hairgrowth drugs?
 
+## Tidying
 In order to answer these questions, first we must take the data provided and tidy it into a format more amenable to our analysis tools. 
 
-## Importing Data into SAS
-Once the data is downloaded to our computer we need to upload it into SAS.
+### Importing Data into SAS
+First we need we need to import our data into SAS.
 ```
-PROC IMPORT OUT= PROJECT2.Baldy 
-            DATAFILE= "C:\Users\mjc34\Desktop\Baldy.csv" \* Your file path here!!! \*
+PROC IMPORT OUT= PROJECT2.Baldy \* Create a project file of your own to store this in
+            DATAFILE= "C:\Users\mjc34\Desktop\Baldy.csv" \* Your file path here!!!
             DBMS=CSV REPLACE; \* Reads in a .csv file and tells SAS to replace the file if one already exists
      GETNAMES=YES;
      DATAROW=2; 
@@ -29,11 +30,11 @@ RUN;
 ## Data Wrangling
 We want the dataset to be the following tidy format, Row 1: Test Group, Row 2: Hair Length, Row 3: Age
 
-First we will create a dataset for each of the 4 groups and rename for consistency:
+First we will create a dataset for each of the 4 trial groups and rename their variables for consistency:
 ```
 DATA PROJECT2.Luxuriant; \ *Setting where to import the data too
 SET PROJECT2.Baldy; \* Setting where to grab the data from
-KEEP Luxuriant AgeLuxuriant; \* Filtering out all the columns that aren't relevant 
+KEEP Luxuriant AgeLuxuriant; \* Filtering out all the columns that aren't from Luxuriant patients
 RENAME Luxuriant = Length AgeLuxuriant = Age; \* Naming the columns so they accurantly display what they represent
 RUN;
 
@@ -118,13 +119,13 @@ run;
 knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Full Dataset Plot.png", dpi = 100)
 ```
 
-Quickly loooking at the plot, it looks like the effect of age has a relatively minimal if any effect on the amount of hair growth and that BaldBeGone is a better treatment than SkinHeadNoMore which in turn appears to be a better treatment that Luxuriant. It also appears that all three of the treatments are btter than the placebo. We will now perform statistical tests in order to see if these eye checks hold up to statistical scrutiny. 
+Quickly loooking at the plot, it looks like the effect of age has a relatively minimal if any effect on the amount of hair growth and that BaldBeGone is a better treatment than SkinHeadNoMore which in turn appears to be a better treatment that Luxuriant. It also appears that all three of the treatments are better than the placebo. We will now perform statistical tests in order to see if these eye checks hold up to statistical scrutiny. 
 
 ## Analysis
-In order to answer the questions introduced earlier we will mainly use two statistical methods. 
+In order to answer the questions introduced earlier we will mainly use two statistical methods: 2 Sample Randomization T-Tests and GLM Model fitting. 
 
 ### 2 Sample Randomization Tests
-First we will use a 2 sample randomization difference of means test. This takes all the data from two groups and repeatedly randomly shuffles them together $n$ times. For each shuffle, the test records the difference of means between the two groups. This collection of difference of means is a sample of what we could expect the difference of sample means $\bar{\mathbf{X}_1}-\bar{\mathbf{X}_2}$ between two groups to be under the assumption that the underlying groups have the same population mean $\mu_1-\mu_2=0$. The test then compares the observed difference from the given data to each of the randomly generated difference of means and records the number of times the difference in sample means is less than randomly generated difference. This gives a p value of $p=\frac{m}{n}$ ($n$ being the number of samples run).
+First we will use a 2 sample randomization difference of means test. This takes all the data from two groups and repeatedly randomly shuffles them together $n$ times. For each shuffle, the test records the difference of means between the two groups. This collection of difference of means is a sample of what we could expect the difference of sample means $\bar{\mathbf{X}_1}-\bar{\mathbf{X}_2}$ between two groups to be under the assumption that the underlying groups have the same population mean $\mu_1-\mu_2=0$. The test then compares the observed difference from the given data to each of the randomly generated difference of means and records the number of times the difference in sample means is less than randomly generated difference. This gives a p value of $p=\frac{m}{n}$.
 
 This method is programmed as a macro here, in order to make it easy to run the function multiple times without having to rewrite every time. 
 ```
@@ -235,7 +236,7 @@ RUN;
 ```{r luxuriant_v_placebo, echo = FALSE}
 knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Luxuriant vs Placebo.png", dpi = 100)
 ```
-
+It's clear from this plot that the median of the Luxuriant treatment group is much higher than that of the Placebo group supporting that Luxuriant has an effect above and beyond the placebo.
 
 ### Luxuriant vs BaldBeGone
 Now we will repeat this analysis for Luxuriant vs the other drugs on the market. First we will compare it to BaldBeGone:
@@ -255,9 +256,8 @@ RUN;
 ```
 This results in a mean hair length post treatment of $12.9994956$mm for the Luxuriant treatment and a mean length of $36.1521295$mm for BaldBeGone.
 
-Now comparing this observed difference to the difference of means in the randomly generated groups:
 ```
-data ResultHolderabbrev;
+data ResultHolderabbrev; \Again comparing the difference of means generated to the sample difference of means
 set ResultHolder;
 where RandomisedMean >= (36.1521295-12.9994956);
 run;
@@ -275,11 +275,12 @@ RUN;
 ```{r luxuriant_v_BaldBeGone, echo = FALSE}
 knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Luxuriant vs BaldBeGone.png", dpi = 100)
 ```
+The median of BaldBeGone patient hair growth is only slightly below the maximum of the Luxuriant patient group. This supports the fact that BaldBeGone is a better treatment.
 
 ### Luxuriant vs SkinHeadNoMore
 Finally comparing Luxuriant to SkinHeadNoMore repeating the same method as before.
 
-Finding the sample means and generating difference of means under H0:
+Finding the sample means and generating difference of means under $H0$:
 
 ```
 DATA PROJECT2.LuxuriantSkinHeadNoMoreTest; \* Again creating test dataset
@@ -295,9 +296,10 @@ PROC MEANS data =  PROJECT2.LuxuriantSkinheadnomoreTest; \* Calculating the mean
   OUTPUT OUT=mymeans mean=;
 RUN;
 ```
-This results in a mean length of 18.7400940mm for SkinHeadNoMore and a mean length of 12.9994956mm for the Luxuriant treatment. Comparing the sample means to the randomly generated means:
+This results in a mean length of 18.7400940mm for SkinHeadNoMore and a mean length of 12.9994956mm for the Luxuriant treatment.
+
 ```
-DATA ResultHolderabbrev;
+DATA ResultHolderabbrev; \* Comparing the sample means to the randomly generated means:
 SET ResultHolder;
 WHERE RandomisedMean >= (18.7400940-12.9994956); /* 18.7400940-12.9994956 is the difference of means between the 2 datasets
 RUN;
@@ -320,6 +322,7 @@ knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Lu
 Now we must investigate if age has an effect on hair growth post treatment. To accomplish this we fit a linear model through SAS' GLM method. 
 
 In order to accomplish this first I will create a dataset with all of the treatments excluding the placebo. 
+
 ```
 DATA PROJECT2.AgeTest;
 SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant PROJECT2.BaldBeGone; \* Taking the data from the three datasets including a treatment
@@ -332,7 +335,7 @@ PROC GLM DATA = PROJECT2.AgeTest;
 MODEL length = age; \* Fitting a model of length = b0 + b1*(x=age)
 RUN;
 ```
-This results in the fitted linear model $\text{length} = 22.93469775 -0.00610651*\text{age}. 
+This results in the fitted linear model $\text{length} = 22.93469775 -0.00610651*\text{age}$. 
  
 | Parameter 	| Estimate    	| Standard Error 	| t value 	| Pr > \|t\| 	|
 |-----------	|-------------	|----------------	|---------	|------------	|
