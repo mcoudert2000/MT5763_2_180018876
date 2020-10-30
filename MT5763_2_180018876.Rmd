@@ -125,6 +125,7 @@ In order to answer the questions introduced earlier we will mainly use two stati
 ### 2 Sample Randomization Tests
 First we will use a 2 sample randomization difference of means test. This takes all the data from two groups and repeatedly randomly shuffles them together $n$ times. For each shuffle, the test records the difference of means between the two groups. This collection of difference of means is a sample of what we could expect the difference of sample means $\bar{\mathbf{X}_1}-\bar{\mathbf{X}_2}$ between two groups to be under the assumption that the underlying groups have the same population mean $\mu_1-\mu_2=0$. The test then compares the observed difference from the given data to each of the randomly generated difference of means and records the number of times the difference in sample means is less than randomly generated difference. This gives a p value of $p=\frac{m}{n}$ ($n$ being the number of samples run).
 
+This method is programmed as a macro here, in order to make it easy to run the function multiple times without having to rewrite every time. 
 ```
 %macro TwoSampRandTest(NumberOfLoops, DataSet, GroupVariable, GroupOneLabel, GroupTwoLabel, ResponseVariable);
 	%do i=1 %to &NumberOfLoops; \* Repeating the randomization process "Number Of Loops" times
