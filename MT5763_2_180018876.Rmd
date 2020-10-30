@@ -96,20 +96,20 @@ Now that all of our data is in tidy format, we will visualize it to see if there
 ```
 proc template;
 define statgraph sgdesign;
-dynamic _AGE _LENGTH _GROUP;
-begingraph / designwidth=828 designheight=480;
-   entrytitle halign=center 'Length of Hair as Compared to Age and Group';
-   layout lattice / rowdatarange=data columndatarange=data rowgutter=10 columngutter=10;
-      layout overlay / yaxisopts=( label=('Length of hair post treatment (mm)'));
-         scatterplot x=_AGE y=_LENGTH / group=_GROUP name='Age and Group versus Length of Hair (mm)';
-         discretelegend 'Age and Group versus Length of Hair (mm)' / opaque=false border=true halign=right valign=top displayclipped=true across=1 order=rowmajor location=inside;
+dynamic _AGE _LENGTH _GROUP; 
+begingraph / designwidth=828 designheight=480; \* Setting the height and width of the plot
+   entrytitle halign=center 'Length of Hair as Compared to Age and Group'; \* Title
+   layout lattice / rowdatarange=data columndatarange=data rowgutter=10 columngutter=10; \* Specifies amount of empty space between the rows and columns
+      layout overlay / yaxisopts=( label=('Length of hair post treatment (mm)')); \* Y axis label
+         scatterplot x=_AGE y=_LENGTH / group=_GROUP name='Age and Group versus Length of Hair (mm)'; \* defining the scatter plot
+         discretelegend 'Age and Group versus Length of Hair (mm)' / opaque=false border=true halign=right valign=top displayclipped=true across=1 order=rowmajor location=inside; \* Adding legend
       endlayout;
    endlayout;
 endgraph;
 end;
 run;
 
-proc sgrender data=PROJECT2.BIGBALDY template=sgdesign; 
+proc sgrender data=PROJECT2.BIGBALDY template=sgdesign; \* Running the plot created above
 dynamic _AGE="AGE" _LENGTH="LENGTH" _GROUP="GROUP";
 run;
 ```
@@ -117,6 +117,7 @@ run;
 ```{r big_plot}
 knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Full Dataset Plot.png")
 ```
+Quickly loooking at the plot, it looks like the effect of age has a relatively minimal if any effect on the amount of hair growth and that BaldBeGone is a better treatment than SkinHeadNoMore which in turn appears to be a better treatment that Luxuriant. It also appears that all three of the treatments are btter than the placebo. We will now perform statistical tests in order to see if these eye checks hold up to scrutiny. 
 
 ## Analysis
 The first question we will answer is if there is any difference between the mean of the Placebo group's length and the mean length of patients who received Luxuriant.
