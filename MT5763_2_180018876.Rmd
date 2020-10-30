@@ -191,7 +191,7 @@ Length = Length * 25.4;
 RUN;
 ```
 
-Now we will run the sampling macro created above to generate 100 random samples assuming that the two means are equal
+Now we will run the sampling macro created above to generate 100 random samples under the assumption that the two means are equal
 ```
 %TwoSampRandTest(NumberOfLoops=100, DataSet=PROJECT2.LuxuriantTest, GroupVariable=Group, GroupOneLabel="Placebo", GroupTwoLabel="Luxuriant", ResponseVariable=Length);
 ```
@@ -213,9 +213,9 @@ set ResultHolder;
 where RandomisedMean >= (12.9994956-2.4850741);/* observeddiff as a numeric value */
 run;
 ```
-0 of the 100 generated samples have a difference of mean greater than the sample implying that the Luxuriant treatment is better than no treatment. 
+0 of the 100 generated samples have a difference of mean greater than the sample implying that the Luxuriant treatment is better than no treatment. This randomization test implies that if Luxuriant had the same affect as a placebo, random chance would have a difference of means as large as the observed one less than 1 in 100 times. 
 
-Now we will repeat this analysis for Luxuriant vs the Other drugs on the market. First we will compare it to BaldBeGone:
+Now we will repeat this analysis for Luxuriant vs the other drugs on the market. First we will compare it to BaldBeGone:
 ```
 DATA PROJECT2.LuxuriantBaldBeGoneTest;
 SET PROJECT2.Luxuriant PROJECT2.BaldBeGone;
