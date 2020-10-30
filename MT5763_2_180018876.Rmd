@@ -276,29 +276,25 @@ knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Lu
 ```
 
 ### Luxuriant vs SkinHeadNoMore
-Finally comparing Luxuriant to SkinHeadNoMore:
+Finally comparing Luxuriant to SkinHeadNoMore repeating the same method as before.
 
-Generating the random samples
+Finding the sample means and generating difference of means under H0:
+
 ```
-DATA PROJECT2.LuxuriantSkinHeadNoMoreTest; \* Same as above
+DATA PROJECT2.LuxuriantSkinHeadNoMoreTest; \* Again creating test dataset
 SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant;
 Length = Length * 25.4;
 RUN;
 
 %TwoSampRandTest(NumberOfLoops=100, DataSet=PROJECT2.LuxuriantSkinHeadNoMoreTest, GroupVariable=Group, GroupOneLabel="SkinHeadNoMore", GroupTwoLabel="Luxuriant", ResponseVariable=Length);
-```
 
-Finding the sample means:
-
-```
-DATA PROJECT2.LuxuriantSkinHeadNoMoreTest;
-SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant;
-Length = Length * 25.4;
+PROC MEANS data =  PROJECT2.LuxuriantSkinheadnomoreTest; \* Calculating the means for both the sample groups
+  VAR Length; 
+  BY Group;
+  OUTPUT OUT=mymeans mean=;
 RUN;
-
-%TwoSampRandTest(NumberOfLoops=100, DataSet=PROJECT2.LuxuriantSkinHeadNoMoreTest, GroupVariable=Group, GroupOneLabel="SkinHeadNoMore", GroupTwoLabel="Luxuriant", ResponseVariable=Length);
 ```
-This results in a mean length of 18.7400940mm for SkinHeadNoMore and a mean length of 12.9994956mm for the Luxuriant treatment. Comparing the sample means to the randomly generated means.
+This results in a mean length of 18.7400940mm for SkinHeadNoMore and a mean length of 12.9994956mm for the Luxuriant treatment. Comparing the sample means to the randomly generated means:
 ```
 DATA ResultHolderabbrev;
 SET ResultHolder;
