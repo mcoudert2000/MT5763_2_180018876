@@ -340,7 +340,7 @@ This results in the fitted linear model:
 
 It is clear from $\mathbb{P}(>t)=0.9655$ that age does not have a statistically significant impact on the effect of using hair growth treatment when viewing all the treatments in agregate. 
 
-
+Helpfully, `PROC GLM` also generates this plot so we can visualize the effect age has on the data. Looking at the plot, the data appears to be pretty much randomly distributed along the age line which fits with our models output of no effect of age on hair growth treatment. As there is less data for both younger and older patients, the model is less confident in the fit line, so has a wider tail. 
 ```{r ageFitPlot}
 knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/AgeFitPlot.png")
 ```
