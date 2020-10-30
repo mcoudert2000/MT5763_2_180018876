@@ -121,6 +121,8 @@ knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Fu
 ## Analysis
 The first question we will answer is if there is any difference between the mean of the Placebo group's length and the mean length of patients who received Luxuriant.
 
+### Placebo vs Luxuriant
+
 In order to accomplish this first I will use a Macro from the notes (slightly modified) to perform a random sample difference of means t-test.
 ```
 %macro TwoSampRandTest(NumberOfLoops, DataSet, GroupVariable, GroupOneLabel, GroupTwoLabel, ResponseVariable);
@@ -215,37 +217,40 @@ run;
 ```
 0 of the 100 generated samples have a difference of mean greater than the sample implying that the Luxuriant treatment is better than no treatment. This randomization test implies that if Luxuriant had the same affect as a placebo, random chance would have a difference of means as large as the observed one less than 1 in 100 times. 
 
+
+### Luxuriant vs BaldBeGone
 Now we will repeat this analysis for Luxuriant vs the other drugs on the market. First we will compare it to BaldBeGone:
 ```
-DATA PROJECT2.LuxuriantBaldBeGoneTest;
+DATA PROJECT2.LuxuriantBaldBeGoneTest; \* Creating dataset in the format used by the randomization macro
 SET PROJECT2.Luxuriant PROJECT2.BaldBeGone;
 Length = Length * 25.4;
 RUN;
 
-%TwoSampRandTest(NumberOfLoops=100, DataSet=PROJECT2.BaldBeGoneTest, GroupVariable=Group, GroupOneLabel="BaldBeGone", GroupTwoLabel="Luxuriant", ResponseVariable=Length);
+%TwoSampRandTest(NumberOfLoops=100, DataSet=PROJECT2.BaldBeGoneTest, GroupVariable=Group, GroupOneLabel="BaldBeGone", GroupTwoLabel="Luxuriant", ResponseVariable=Length); \* Running the randomization test
 
-PROC MEANS data =  PROJECT2.LuxuriantBaldBeGoneTest;
+PROC MEANS data =  PROJECT2.LuxuriantBaldBeGoneTest; \* Calculating the means for both the sample groups
   VAR Length; 
   BY Group;
   OUTPUT OUT=mymeans mean=;
 RUN;
 ```
-This results in a mean length of 12.9994956mm for the Luxuriant treatment and a length of 36.1521295mm for BaldBeGone.
+This results in a mean hair length post treatment of $12.9994956$mm for the Luxuriant treatment and a mean length of $36.1521295$mm for BaldBeGone.
 
-Now comparing this to the observed difference:
+Now comparing this observed difference to the difference of means in the randomly generated groups:
 ```
 data ResultHolderabbrev;
 set ResultHolder;
 where RandomisedMean >= (36.1521295-12.9994956);
 run;
 ```
-Again this generates 0 values that have a greater difference in means between BaldBeGone and Luxuriant implying that BaldBeGone is a better treatment to use than Luxuriant. 
+Again this generates 0 values that have a greater difference in means between the observed BaldBeGone and Luxuriant implying that BaldBeGone is a better treatment to use than Luxuriant. 
 
+### Luxuriant vs SkinHeadNoMore
 Finally comparing Luxuriant to SkinHeadNoMore:
 
 Generating the random samples
 ```
-DATA PROJECT2.LuxuriantSkinHeadNoMoreTest;
+DATA PROJECT2.LuxuriantSkinHeadNoMoreTest; \* Same as above
 SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant;
 Length = Length * 25.4;
 RUN;
@@ -295,7 +300,7 @@ This results in the fitted linear model:
 | Intercept 	| 22.93469775 	| 7.09477674     	| 3.23    	| 0.0014     	|
 | Age       	| -0.00610651 	| 0.14109925     	| -0.04   	| 0.9655     	|
 
-It is clear that age does not have a statistically significant impact on the effect of using hair growth treatment.
+It is clear from $\mathbb{P}(>t)=0.9655$ that age does not have a statistically significant impact on the effect of using hair growth treatment when viewing all the treatments in agregate. 
 
 
 ```{r ageFitPlot}
