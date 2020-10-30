@@ -37,9 +37,9 @@ KEEP Luxuriant AgeLuxuriant; \* Filtering out all the columns that aren't releva
 RENAME Luxuriant = Length AgeLuxuriant = Age; \* Naming the columns so they accurantly display what they represent
 RUN;
 
-DATA PROJECT2.Luxuriant;
+DATA PROJECT2.Luxuriant; 
 SET PROJECT2.Luxuriant; \* Changing the dataset
-Group = 'Luxuriant'; \* Creating a new variable called 
+Group = 'Luxuriant'; \* Creating a new variable called group with all elements being assigned to "Luxuriant"
 RUN;
 
 DATA PROJECT2.Placebo; \* Creating the placebo data group
@@ -125,11 +125,8 @@ In order to answer the questions introduced earlier we will mainly use two stati
 ### 2 Sample Randomization Tests
 First we will use a 2 sample randomization difference of means test. This takes all the data from two groups and repeatedly randomly shuffles them together $n$ times. For each shuffle, the test records the difference of means between the two groups. This collection of difference of means is a sample of what we could expect the difference of sample means $\bar{\mathbf{X}_1}-\bar{\mathbf{X}_2}$ between two groups to be under the assumption that the underlying groups have the same population mean $\mu_1-\mu_2=0$. The test then compares the observed difference from the given data to each of the randomly generated difference of means and records the number of times the difference in sample means is less than randomly generated difference. This gives a p value of $p=\frac{m}{n}$ ($n$ being the number of samples run).
 
-The first question we will answer is if there is any difference between the mean of the Placebo group's length and the mean length of patients who received Luxuriant.
-
 ### Placebo vs Luxuriant
-
-In order to accomplish this first I will use a Macro from the notes (slightly modified) to perform a random 2 sample difference of means t-test.
+The first question we will answer is if there is any difference between the mean of the Placebo group's length and the mean length of patients who received Luxuriant. In order to accomplish this first I will use a Macro from the notes (slightly modified) to perform a random 2 sample difference of means t-test.
 ```
 %macro TwoSampRandTest(NumberOfLoops, DataSet, GroupVariable, GroupOneLabel, GroupTwoLabel, ResponseVariable);
 	%do i=1 %to &NumberOfLoops; \* Repeating the randomization process "Number Of Loops" times
