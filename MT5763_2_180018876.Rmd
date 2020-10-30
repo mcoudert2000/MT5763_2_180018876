@@ -117,14 +117,19 @@ run;
 ```{r big_plot}
 knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Full Dataset Plot.png")
 ```
-Quickly loooking at the plot, it looks like the effect of age has a relatively minimal if any effect on the amount of hair growth and that BaldBeGone is a better treatment than SkinHeadNoMore which in turn appears to be a better treatment that Luxuriant. It also appears that all three of the treatments are btter than the placebo. We will now perform statistical tests in order to see if these eye checks hold up to scrutiny. 
+Quickly loooking at the plot, it looks like the effect of age has a relatively minimal if any effect on the amount of hair growth and that BaldBeGone is a better treatment than SkinHeadNoMore which in turn appears to be a better treatment that Luxuriant. It also appears that all three of the treatments are btter than the placebo. We will now perform statistical tests in order to see if these eye checks hold up to statistical scrutiny. 
 
 ## Analysis
+In order to answer the questions introduced earlier we will mainly use two statistical methods. 
+
+### 2 Sample Randomization Tests
+First we will use a 2 sample randomization difference of means test. This takes all the data from two groups and repeatedly randomly shuffles them together $n$ times. For each shuffle, the test records the difference of means between the two groups. This collection of difference of means is a sample of what we could expect the difference of sample means $\bar{\mathbf{X}_1}-\bar{\mathbf{X}_2}$ between two groups to be under the assumption that the underlying groups have the same population mean $\mu_1-\mu_2=0$. The test then compares the observed difference from the given data to each of the randomly generated difference of means and records the number of times the difference in sample means is less than randomly generated difference. This gives a p value of $p=\frac{m}{n}$ ($n$ being the number of samples run).
+
 The first question we will answer is if there is any difference between the mean of the Placebo group's length and the mean length of patients who received Luxuriant.
 
 ### Placebo vs Luxuriant
 
-In order to accomplish this first I will use a Macro from the notes (slightly modified) to perform a random sample difference of means t-test.
+In order to accomplish this first I will use a Macro from the notes (slightly modified) to perform a random 2 sample difference of means t-test.
 ```
 %macro TwoSampRandTest(NumberOfLoops, DataSet, GroupVariable, GroupOneLabel, GroupTwoLabel, ResponseVariable);
 	%do i=1 %to &NumberOfLoops; \* Repeating the randomization process "Number Of Loops" times
