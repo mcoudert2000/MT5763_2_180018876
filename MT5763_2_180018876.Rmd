@@ -2,8 +2,8 @@
 title: "Project 2"
 author: "Matthew Coudert"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 github: https://github.com/mcoudert2000/MT5763_2_180018876
 
@@ -114,9 +114,10 @@ dynamic _AGE="AGE" _LENGTH="LENGTH" _GROUP="GROUP";
 run;
 ```
 
-```{r big_plot}
-knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Full Dataset Plot.png")
+```{r big_plot, echo = FALSE}
+knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Full Dataset Plot.png", dpi = 100)
 ```
+
 Quickly loooking at the plot, it looks like the effect of age has a relatively minimal if any effect on the amount of hair growth and that BaldBeGone is a better treatment than SkinHeadNoMore which in turn appears to be a better treatment that Luxuriant. It also appears that all three of the treatments are btter than the placebo. We will now perform statistical tests in order to see if these eye checks hold up to statistical scrutiny. 
 
 ## Analysis
@@ -231,8 +232,8 @@ PROC SGPLOT DATA = PROJECT2.Luxurianttest;
 	YAXIS LABEL = "Hair Growth (mm)";
 RUN;
 ```
-```{r luxuriant_v_test}
-knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Luxuriant vs Placebo.png")
+```{r luxuriant_v_placebo, echo = FALSE}
+knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Luxuriant vs Placebo.png", dpi = 100)
 ```
 
 
@@ -271,8 +272,8 @@ PROC SGPLOT DATA = PROJECT2.LuxuriantBaldBeGoneTest;
 	YAXIS LABEL = "Hair Growth (mm)";
 RUN;
 ```
-```{r luxuriant_v_BaldBeGone}
-knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Luxuriant vs BaldBeGone.png")
+```{r luxuriant_v_BaldBeGone, echo = FALSE}
+knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Luxuriant vs BaldBeGone.png", dpi = 100)
 ```
 
 ### Luxuriant vs SkinHeadNoMore
@@ -311,8 +312,8 @@ PROC SGPLOT DATA = PROJECT2.LuxuriantSkinheadnomoretest;
 	YAXIS LABEL = "Hair Growth (mm)";
 RUN;
 ```
-```{r luxuriant_v_test}
-knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Luxuriant vs Skinheadnomore.png")
+```{r luxuriant_v_skinheadnomore, echo = FALSE}
+knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Luxuriant vs Skinheadnomore.png", dpi = 100)
 ```
  
 ### Age
@@ -341,8 +342,8 @@ This results in the fitted linear model:
 It is clear from $\mathbb{P}(>t)=0.9655$ that age does not have a statistically significant impact on the effect of using hair growth treatment when viewing all the treatments in agregate. 
 
 Helpfully, `PROC GLM` also generates this plot so we can visualize the effect age has on the data. Looking at the plot, the data appears to be pretty much randomly distributed along the age line which fits with our models output of no effect of age on hair growth treatment. As there is less data for both younger and older patients, the model is less confident in the fit line, so has a wider tail. 
-```{r ageFitPlot}
-knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/AgeFitPlot.png")
+```{r ageFitPlot, echo = FALSE}
+knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/AgeFitPlot.png", dpi = 100)
 ```
 
 ## Conclusion
