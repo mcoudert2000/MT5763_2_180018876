@@ -231,6 +231,9 @@ PROC SGPLOT DATA = PROJECT2.Luxurianttest;
 	YAXIS LABEL = "Hair Growth (mm)";
 RUN;
 ```
+```{r luxuriant_v_test}
+knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Luxuriant vs Placebo.png")
+```
 
 
 ### Luxuriant vs BaldBeGone
@@ -259,6 +262,18 @@ where RandomisedMean >= (36.1521295-12.9994956);
 run;
 ```
 Again this generates 0 values that have a greater difference in means between the observed BaldBeGone and Luxuriant implying that BaldBeGone is a better treatment to use than Luxuriant. 
+
+```
+PROC SGPLOT DATA = PROJECT2.LuxuriantBaldBeGoneTest;
+	VBOX Length / Category = Group EXTREME;
+	TITLE "Luxuriant vs BaldBeGone";
+	XAXIS LABEL = "Group";
+	YAXIS LABEL = "Hair Growth (mm)";
+RUN;
+```
+```{r luxuriant_v_BaldBeGone}
+knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Luxuriant vs BaldBeGone.png")
+```
 
 ### Luxuriant vs SkinHeadNoMore
 Finally comparing Luxuriant to SkinHeadNoMore:
@@ -291,6 +306,18 @@ WHERE RandomisedMean >= (18.7400940-12.9994956); /* 18.7400940-12.9994956 is the
 RUN;
 ```
 Yet again 0 of the values randomly generated under H0 are greater than the difference between the sample means again implying SkinHeadNoMore is a better treatment than Luxuriant for hair growth. 
+
+```
+PROC SGPLOT DATA = PROJECT2.LuxuriantSkinheadnomoretest;
+	VBOX Length / Category = Group EXTREME;
+	TITLE "Luxuriant vs SkinHeadNoMore";
+	XAXIS LABEL = "Group";
+	YAXIS LABEL = "Hair Growth (mm)";
+RUN;
+```
+```{r luxuriant_v_test}
+knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Luxuriant vs Skinheadnomore.png")
+```
  
 ### Age
 Now we must answer the question if Age has an effect on hair growth post treatment.
