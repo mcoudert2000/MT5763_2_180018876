@@ -125,8 +125,6 @@ In order to answer the questions introduced earlier we will mainly use two stati
 ### 2 Sample Randomization Tests
 First we will use a 2 sample randomization difference of means test. This takes all the data from two groups and repeatedly randomly shuffles them together $n$ times. For each shuffle, the test records the difference of means between the two groups. This collection of difference of means is a sample of what we could expect the difference of sample means $\bar{\mathbf{X}_1}-\bar{\mathbf{X}_2}$ between two groups to be under the assumption that the underlying groups have the same population mean $\mu_1-\mu_2=0$. The test then compares the observed difference from the given data to each of the randomly generated difference of means and records the number of times the difference in sample means is less than randomly generated difference. This gives a p value of $p=\frac{m}{n}$ ($n$ being the number of samples run).
 
-### Placebo vs Luxuriant
-The first question we will answer is if there is any difference between the mean of the Placebo group's length and the mean length of patients who received Luxuriant. In order to accomplish this first I will use a Macro from the notes (slightly modified) to perform a random 2 sample difference of means t-test.
 ```
 %macro TwoSampRandTest(NumberOfLoops, DataSet, GroupVariable, GroupOneLabel, GroupTwoLabel, ResponseVariable);
 	%do i=1 %to &NumberOfLoops; \* Repeating the randomization process "Number Of Loops" times
@@ -162,12 +160,12 @@ The first question we will answer is if there is any difference between the mean
 	output out=GroupTwoMean mean=mean;
 	run;
 
-	data _NULL_; 
+	data _NULL_;  \* Creating datapoint to hold the mean of the first group temporarily
 	set GroupOneMean;
 	call symput('GroupOneMean', mean);
 	run;
 
-	data _NULL_;
+	data _NULL_; \* Mean of 2nd group
 	set GroupTwoMean;
 	call symput('GroupTwoMean', mean);
 	run;
@@ -187,6 +185,10 @@ The first question we will answer is if there is any difference between the mean
 	%end;
 %mend;
 ```
+
+### Placebo vs Luxuriant
+The first question we will answer is if there is any difference between the mean of the Placebo group's length and the mean length of patients who received Luxuriant. In order to accomplish this first I will use a Macro from the notes (slightly modified) to perform a random 2 sample difference of means t-test.
+
 
 Here we will create a new table holding only the data from Luxuriant and the Placebo
 ```
@@ -219,6 +221,15 @@ where RandomisedMean >= (12.9994956-2.4850741);/* observeddiff as a numeric valu
 run;
 ```
 0 of the 100 generated samples have a difference of mean greater than the sample implying that the Luxuriant treatment is better than no treatment. This randomization test implies that if Luxuriant had the same affect as a placebo, random chance would have a difference of means as large as the observed one less than 1 in 100 times. 
+Visually:
+```
+PROC SGPLOT DATA = PROJECT2.Luxurianttest;
+	VBOX Length / Category = Group EXTREME;
+	TITLE "Luxuriant vs Placebo";
+	XAXIS LABEL = "Group";
+	YAXIS LABEL = "Hair Growth (mm)";
+RUN;
+```
 
 
 ### Luxuriant vs BaldBeGone
