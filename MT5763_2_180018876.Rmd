@@ -226,11 +226,11 @@ run;
 0 of the 100 generated samples have a difference of mean greater than the sample implying that the Luxuriant treatment is better than no treatment. This randomization test implies that if Luxuriant had the same affect as a placebo, random chance would have a difference of means as large as the observed one less than 1 in 100 times. 
 Visually:
 ```
-PROC SGPLOT DATA = PROJECT2.Luxurianttest;
-	VBOX Length / Category = Group EXTREME;
-	TITLE "Luxuriant vs Placebo";
-	XAXIS LABEL = "Group";
-	YAXIS LABEL = "Hair Growth (mm)";
+PROC SGPLOT DATA = PROJECT2.Luxurianttest; \* Grabbing where to pull the data from the plot
+	VBOX Length / Category = Group EXTREME; \* Tails going to the extremes (inclduing outliers)
+	TITLE "Luxuriant vs Placebo"; \* Setting the title of the chart
+	XAXIS LABEL = "Group"; \* Setting the X-Axis Title
+	YAXIS LABEL = "Hair Growth (mm)"; \* Setting the Y-Axis Title
 RUN;
 ```
 ```{r luxuriant_v_placebo, echo = FALSE}
@@ -265,7 +265,7 @@ run;
 Again this generates 0 values that have a greater difference in means between the observed BaldBeGone and Luxuriant implying that BaldBeGone is a better treatment to use than Luxuriant. 
 
 ```
-PROC SGPLOT DATA = PROJECT2.LuxuriantBaldBeGoneTest;
+PROC SGPLOT DATA = PROJECT2.LuxuriantBaldBeGoneTest; \* Same method as above for Box-Plots
 	VBOX Length / Category = Group EXTREME;
 	TITLE "Luxuriant vs BaldBeGone";
 	XAXIS LABEL = "Group";
@@ -307,7 +307,7 @@ RUN;
 Yet again 0 of the values randomly generated under H0 are greater than the difference between the sample means again implying SkinHeadNoMore is a better treatment than Luxuriant for hair growth. 
 
 ```
-PROC SGPLOT DATA = PROJECT2.LuxuriantSkinheadnomoretest;
+PROC SGPLOT DATA = PROJECT2.LuxuriantSkinheadnomoretest; \* Same as above for boxplot
 	VBOX Length / Category = Group EXTREME;
 	TITLE "Luxuriant vs SkinHeadNoMore";
 	XAXIS LABEL = "Group";
