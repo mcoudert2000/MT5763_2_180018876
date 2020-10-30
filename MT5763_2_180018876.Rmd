@@ -306,3 +306,7 @@ It is clear from $\mathbb{P}(>t)=0.9655$ that age does not have a statistically 
 ```{r ageFitPlot}
 knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/AgeFitPlot.png")
 ```
+
+## Conclusion
+LUXURIANT is an exciting new hairloss drug coming onto the market. The study undertaken provides strong evidence that Luxuriant has a significant positive effect on hair growth as compared to a placebo treatment. As compared to existing drugs on the market, BaldBeGone and SkinHeadNoMore Luxuriant is a weaker treatment, having a statistically significant weaker positive affect on hair growth. Finally the study has shown no evidence of an effect of age on the effectiveness of the hair growth treatments. That means patients at all stages of their lives can feel the benefits of Luxuriant as well as the other hair growth drugs. 
+
