@@ -236,7 +236,8 @@ RUN;
 ```{r luxuriant_v_placebo, echo = FALSE}
 knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Luxuriant vs Placebo.png", dpi = 100)
 ```
-It's clear from this plot that the median of the Luxuriant treatment group is much higher than that of the Placebo group supporting that Luxuriant has an effect above and beyond the placebo.
+
+The median of the Luxuriant treatment group is much higher than that of the Placebo group supporting that Luxuriant has an effect above and beyond the placebo.
 
 ### Luxuriant vs BaldBeGone
 Now we will repeat this analysis for Luxuriant vs the other drugs on the market. First we will compare it to BaldBeGone:
@@ -275,6 +276,7 @@ RUN;
 ```{r luxuriant_v_BaldBeGone, echo = FALSE}
 knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Luxuriant vs BaldBeGone.png", dpi = 100)
 ```
+
 The median of BaldBeGone patient hair growth is only slightly below the maximum of the Luxuriant patient group. This supports the fact that BaldBeGone is a better treatment.
 
 ### Luxuriant vs SkinHeadNoMore
@@ -317,7 +319,8 @@ RUN;
 ```{r luxuriant_v_skinheadnomore, echo = FALSE}
 knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Luxuriant vs Skinheadnomore.png", dpi = 100)
 ```
- 
+
+The median and maximum of Skinheadnomore are higher than that of Luxuriant, supporting that Skinheadnomore is a better treatment.
 ### Age
 Now we must investigate if age has an effect on hair growth post treatment. To accomplish this we fit a linear model through SAS' GLM method. 
 
