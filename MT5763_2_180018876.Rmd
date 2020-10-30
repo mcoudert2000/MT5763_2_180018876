@@ -317,7 +317,7 @@ knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/Lu
 ```
  
 ### Age
-Now we must answer the question if Age has an effect on hair growth post treatment.
+Now we must investigate if age has an effect on hair growth post treatment. To accomplish this we fit a linear model through SAS' GLM method. 
 
 In order to accomplish this first I will create a dataset with all of the treatments excluding the placebo. 
 ```
@@ -332,22 +332,22 @@ PROC GLM DATA = PROJECT2.AgeTest;
 MODEL length = age; \* Fitting a model of length = b0 + b1*(x=age)
 RUN;
 ```
-This results in the fitted linear model:
+This results in the fitted linear model $\text{length} = 22.93469775 -0.00610651*\text{age}. 
  
 | Parameter 	| Estimate    	| Standard Error 	| t value 	| Pr > \|t\| 	|
 |-----------	|-------------	|----------------	|---------	|------------	|
 | Intercept 	| 22.93469775 	| 7.09477674     	| 3.23    	| 0.0014     	|
 | Age       	| -0.00610651 	| 0.14109925     	| -0.04   	| 0.9655     	|
 
-It is clear from $\mathbb{P}(>t)=0.9655$ that age does not have a statistically significant impact on the effect of using hair growth treatment when viewing all the treatments in agregate. 
+It is clear from $\mathbb{P}(>t)=0.9655$ that age does not have a statistically significant impact on the effect of using hair growth treatment when viewing all the treatments in aggregate. 
 
-Helpfully, `PROC GLM` also generates this plot so we can visualize the effect age has on the data. Looking at the plot, the data appears to be pretty much randomly distributed along the age line which fits with our models output of no effect of age on hair growth treatment. As there is less data for both younger and older patients, the model is less confident in the fit line, so has a wider tail. 
+Helpfully, `PROC GLM` also generates this plot where we can see the lack of trend in the data. Additionally, as there is less data for both younger and older patients, the model is less confident in the fit line, so has wider tails. 
 ```{r ageFitPlot, echo = FALSE}
 knitr::include_graphics("/Users/matthewcoudert/Maths/2020:21/MT5763/Project 2/AgeFitPlot.png", dpi = 100)
 ```
 
 ## Conclusion
-LUXURIANT is an exciting new hairloss drug coming onto the market. The study undertaken provides strong evidence that Luxuriant has a significant positive effect on hair growth as compared to a placebo treatment. As compared to existing drugs on the market, BaldBeGone and SkinHeadNoMore, Luxuriant is a weaker treatment, having a statistically significant weaker positive effect on hair growth. Finally the study has shown no evidence of an effect of age on the effectiveness of the hair growth treatments. That means patients at all stages of their lives can feel the benefits of hair growth treatments!
+The LUXURIANT study undertaken provides strong evidence that Luxuriant has a significant positive effect on hair growth as compared to a placebo treatment. As compared to existing drugs on the market, BaldBeGone and SkinHeadNoMore, Luxuriant is a weaker treatment, having a statistically significant weaker positive effect on hair growth. Finally the study has shown no evidence of an effect of age on the effectiveness of the hair growth treatments. That means patients at all stages of their lives can feel the benefits of hair growth treatments!
 
 This largely agrees with our gutcheck analysis of the plot at the beginning, but now we have statistical evidence to support our conclusions. There is quite a large amount of variance in how much different patients respond to the hair growth treatments and while age was not a predictive factor in this, it may be worth recording other variables about a patient such as indicators of health like weight or more hair related measurements like how old they were when they began balding. While we have shown that Luxuriant is a weaker treatment than BaldBeGone and Skinheadnomore, there may be certain groups in which Luxuriant is particularly effective in treating. 
 
