@@ -283,14 +283,14 @@ Now we must answer the question if Age has an effect on hair growth post treatme
 In order to accomplish this first I will create a dataset with all of the treatments excluding the placebo. 
 ```
 DATA PROJECT2.AgeTest;
-SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant PROJECT2.BaldBeGone;
+SET PROJECT2.SkinHeadNoMore PROJECT2.Luxuriant PROJECT2.BaldBeGone; \* Taking the data from the three datasets including a treatment
 Length = Length * 25.4;
 RUN;
 ```
 Now we will generate a linear model of Age vs Hair Length (mm) post treatment. 
 ```
-PROC GLM DATA = PROJECT2.AgeTest;
-MODEL length = age;
+PROC GLM DATA = PROJECT2.AgeTest; 
+MODEL length = age; \* Fitting a model of length = b0 + b1*(x=age)
 RUN;
 ```
 This results in the fitted linear model:
